@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insula Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <a class="brand" href="#">Insula Demo</a>
+        </div>
+    </div>
+    <div id="main" class="container">
+        <table class="table table-striped">
+            <tr>
+                <td><b>Time</b></td>
+                <td><b>Insulin dose</b></td>
+                <td><b>Carbohydrate units</b></td>
+                <td><b>Glucose before</b></td>
+                <td><b>Glucose after</b></td>
+                <td><b>Forecast</b></td>
+                <td><b>Options</b></td></tr>
+            <!-- ko foreach: doses -->
+            <tr>
+                <td><p data-bind="text: Time"></p></td>
+                <td><p data-bind="text: Insulin"></p></td>
+                <td><p data-bind="text: Carbo"></p></td>
+                <td><p data-bind="text: GlucoseBefore"></p></td>
+                <td><p data-bind="text: GlucoseAfter"></p></td>
+                <td><p data-bind="text: Forecast"></p></td>
+                <td>
+                    <button data-bind="click: $parent.beginEdit" class="btn">Edit</button>
+                    <button data-bind="click: $parent.remove" class="btn">Delete</button>
+                    <button data-bind="click: $parent.forecast" class="btn">Forecast</button>
+                </td>
+            </tr>
+            <!-- /ko -->
+        </table>
+        <button data-bind="click: beginAdd" class="btn">Add dose</button>
+    </div>
+    <div id="add" class="modal hide fade" tabindex="=1" role="dialog" aria-labelledby="addDialogLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="addDialogLabel">Add dose</h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="inputTime">Time</label>
+                    <div class="controls">
+                        <input data-bind="value: Time" type="text" id="inputTime" placeholder="Time" style="width: 150px;">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputInsulin">Insulin dose</label>
+                    <div class="controls">
+                        <input data-bind="value: Insulin" type="text" id="inputInsulin" placeholder="Insulin" style="width: 300px;">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputCarbo">Carbohydrate units</label>
+                    <div class="controls">
+                        <input data-bind="value: Carbo" type="text" id="inputCarbo" placeholder="Carbo" style="width: 150px;">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputGlucoseBefore">Glucose before</label>
+                    <div class="controls">
+                        <input data-bind="value: GlucoseBefore" type="text" id="inputGlucoseBefore" placeholder="GlucoseBefore" style="width: 300px;">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputGlucoseAfter">Glucose after</label>
+                    <div class="controls">
+                        <input data-bind="value: GlucoseAfter" type="text" id="inputGlucoseAfter" placeholder="GlucoseAfter" style="width: 300px;">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button data-bind="click: addDose" class="btn btn-primary">Add dose</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+    </div>
+    <div id="edit" class="modal hide fade" tabindex="=1" role="dialog" aria-labelledby="editDialogLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="editDialogLabel">Update dose</h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="inputTime">Time</label>
+                    <div class="controls">
+                        <input data-bind="value: Time" type="text" id="Time" placeholder="Time" style="width: 300px;">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputInsulin">Insulin</label>
+                    <div class="controls">
+                        <input data-bind="value: Insulin" type="text" id="Insulin" placeholder="Insulin" style="width: 150px;">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputCarbo">Carbohydrate units</label>
+                    <div class="controls">
+                        <input data-bind="value: Carbo" type="text" id="Carbo" placeholder="Carbo" style="width: 150px;">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputGlucoseBefore">Glucose before</label>
+                    <div class="controls">
+                        <input data-bind="value: GlucoseBefore" type="text" id="GlucoseBefore" placeholder="GlucoseBefore" style="width: 300px;">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputGlucoseAfter">Glucose after</label>
+                    <div class="controls">
+                        <input data-bind="value: GlucoseAfter" type="text" id="GlucoseAfter" placeholder="GlucoseAfter" style="width: 150px;">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button data-bind="click:editDose" class="btn btn-primary">Update dose</button>
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </div>
+    </div>
+    <div id="login" class="modal hide fade" tabindex="=1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+        <div class="modal-header">
+            <h3 id="loginLabel">Sign In</h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="inputUsername">Username</label>
+                    <div class="controls">
+                        <input data-bind="value: username" type="text" id="inputUsername" placeholder="Username">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputPassword">Password</label>
+                    <div class="controls">
+                        <input data-bind="value: password" type="password" id="inputPassword" placeholder="Password">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button data-bind="click: login" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Sign In</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function DosesViewModel() {
+            var self = this;
+            self.dosesURI = 'http://localhost:5000/dose/';
+            self.username = "";
+            self.password = "";
+            self.doses = ko.observableArray();
+
+            self.ajax = function(uri, method, data) {
+                var request = {
+                    url: uri,
+                    type: method,
+                    contentType: "application/json",
+                    accepts: "application/json",
+                    cache: false,
+                    dataType: 'json',
+                    data: JSON.stringify(data),
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization",
+                            "Basic " + btoa(self.username + ":" + self.password));
+                    },
+                    error: function(jqXHR) {
+                        console.log("ajax error " + jqXHR.status);
+                    }
+                };
+                return $.ajax(request);
+            }
+            self.updateDose = function(dose, newDose) {
+                var i = self.doses.indexOf(dose);
+                self.doses()[i].uri(newDose.uri);
+                self.doses()[i].Insulin(newDose.Insulin);
+                self.doses()[i].Time(newDose.Time);
+                self.doses()[i].Carbo(newDose.Carbo);
+                self.doses()[i].GlucoseBefore(newDose.GlucoseBefore);
+                self.doses()[i].GlucoseAfter(newDose.GlucoseAfter);
+                self.doses()[i].Forecast(newDose.Forecast);
+            }
+
+            self.beginAdd = function() {
+                $('#add').modal('show');
+            }
+            self.add = function(dose) {
+                self.ajax(self.dosesURI, 'POST', dose).done(function(data) {
+                    self.doses.push({
+                        uri: ko.observable(data.dose.uri),
+                        Insulin: ko.observable(data.dose.Insulin),
+                        Time: ko.observable(data.dose.Time),
+                        Carbo: ko.observable(data.dose.Carbo),
+                        GlucoseBefore: ko.observable(data.dose.GlucoseBefore),
+                        GlucoseAfter: ko.observable(data.dose.GlucoseAfter),
+                        Forecast: ko.observable(data.dose.Forecast)
+                    });
+                });
+            }
+            self.beginEdit = function(dose) {
+                editDoseViewModel.setDose(dose);
+                $('#edit').modal('show');
+            }
+            self.edit = function(dose, data) {
+                self.ajax(dose.uri(), 'PUT', data).done(function(res) {
+                    self.updateDose(dose, res.dose);
+                });
+            }
+            self.remove = function(dose) {
+                self.ajax(dose.uri(), 'DELETE').done(function() {
+                    self.doses.remove(dose);
+                });
+            }
+
+            self.forecast = function(dose) {
+                self.ajax(dose.uri(), 'PUT', { DoForecast: true }).done(function(res) {
+                    self.updateDose(dose, res.dose);
+                });
+            }
+            self.beginLogin = function() {
+                $('#login').modal('show');
+            }
+            self.login = function(username, password) {
+                self.username = username;
+                self.password = password;
+                self.ajax(self.dosesURI, 'GET').done(function(data) {
+                    for (var i = 0; i < data.doses.length; i++) {
+                        self.doses.push({
+                            uri: ko.observable(data.doses[i].uri),
+                            Insulin: ko.observable(data.doses[i].Insulin),
+                            Time: ko.observable(data.doses[i].Time),
+                            Carbo: ko.observable(data.doses[i].Carbo),
+                            GlucoseBefore: ko.observable(data.doses[i].GlucoseBefore),
+                            GlucoseAfter: ko.observable(data.doses[i].GlucoseAfter),
+                            Forecast: ko.observable(data.doses[i].Forecast)
+                        });
+                    }
+                }).fail(function(jqXHR) {
+                    if (jqXHR.status == 403)
+                        setTimeout(self.beginLogin, 500);
+                });
+            }
+            
+            self.beginLogin();
+        }
+        function AddDoseViewModel() {
+            var self = this;
+            self.Insulin = ko.observable();
+            self.Time = ko.observable();
+            self.Carbo = ko.observable();
+            self.GlucoseBefore = ko.observable();
+            self.GlucoseAfter = ko.observable();
+
+            self.addDose = function() {
+                $('#add').modal('hide');
+                dosesViewModel.add({
+                    Insulin: self.Insulin(),
+                    Time: self.Time(),
+                    Carbo: self.Carbo(),
+                    GlucoseBefore: self.GlucoseBefore(),
+                    GlucoseAfter: self.GlucoseAfter()
+                });
+                self.Insulin("");
+                self.Time("");
+                self.Carbo("");
+                self.GlucoseBefore("");
+                self.GlucoseAfter("");
+            }
+        }
+        function EditDoseViewModel() {
+            var self = this;
+            self.Insulin = ko.observable();
+            self.Time = ko.observable();
+            self.Carbo = ko.observable();
+            self.GlucoseBefore = ko.observable();
+            self.GlucoseAfter = ko.observable();
+ 
+            self.setDose = function(dose) {
+                self.dose = dose;
+                self.Insulin(dose.Insulin());
+                self.Time(dose.Time());
+                self.Carbo(dose.Carbo());
+                self.GlucoseBefore(dose.GlucoseBefore());
+                self.GlucoseAfter(dose.GlucoseAfter());
+                $('edit').modal('show');
+            }
+ 
+            self.editDose = function() {
+                $('#edit').modal('hide');
+                dosesViewModel.edit(self.dose, {
+                    Insulin: self.Insulin(),
+                    Time: self.Time(),
+                    Carbo: self.Carbo(),
+                    GlucoseBefore: self.GlucoseBefore(),
+                    GlucoseAfter: self.GlucoseAfter()
+                });
+            }
+        }
+        function LoginViewModel() {
+            var self = this;
+            self.username = ko.observable();
+            self.password = ko.observable();
+ 
+            self.login = function() {
+                $('#login').modal('hide');
+                dosesViewModel.login(self.username(), self.password());
+            }
+        }
+        
+        var dosesViewModel = new DosesViewModel();
+        var addDoseViewModel = new AddDoseViewModel();
+        var editDoseViewModel = new EditDoseViewModel();
+        var loginViewModel = new LoginViewModel();
+        ko.applyBindings(dosesViewModel, $('#main')[0]);
+        ko.applyBindings(addDoseViewModel, $('#add')[0]);
+        ko.applyBindings(editDoseViewModel, $('#edit')[0]);
+        ko.applyBindings(loginViewModel, $('#login')[0]);
+    </script>
+</body>
+</html>
