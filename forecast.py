@@ -28,4 +28,4 @@ def create_forecast():
         abort(400)
     user_doses = [dose for dose in dose_set if dose['UserId'] == get_user_id(auth.username())]
     forecast = {'Forecast': forecast_dose(user_doses)}
-    return jsonify( { 'forecast': make_public_forecast(forecast) } ), 201
+    return jsonify( make_public_forecast(forecast)), 201

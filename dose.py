@@ -49,7 +49,7 @@ def make_public_dose(dose):
 @auth.login_required
 def get_dose_set():
     doses = [dose for dose in dose_set if dose['UserId'] == get_user_id(auth.username())]
-    return jsonify( { 'doses': list(map(make_public_dose, doses)) } )
+    return jsonify(list(map(make_public_dose, doses)))
 
 @app_dose.route('/<int:dose_id>', methods = ['GET'])
 @auth.login_required
@@ -57,7 +57,7 @@ def get_dose(dose_id):
     doses = [dose for dose in dose_set if dose['Id'] == dose_id]
     if len(doses) == 0:
         abort(404)
-    return jsonify( { 'dose': make_public_dose(doses[0]) } )
+    return jsonify(make_public_dose(doses[0]))
 
 @app_dose.route('/', methods=['POST'])
 @auth.login_required
@@ -69,7 +69,7 @@ def create_dose():
     if not create_record(dose_class, request, dose):
         abort(400)
     dose_set.append(dose)
-    return jsonify( { 'dose': make_public_dose(dose) } ), 201
+    return jsonify( make_public_dose(dose)), 201
 
 @app_dose.route('/<int:dose_id>', methods=['PUT'])
 @auth.login_required
@@ -79,7 +79,7 @@ def update_dose(dose_id):
         abort(404)
     dose = doses[0]
     update_record(dose_class, request, dose)
-    return jsonify( { 'dose': make_public_dose(dose) } )
+    return jsonify( make_public_dose(dose))
 
 @app_dose.route('/<int:dose_id>', methods=['DELETE'])
 @auth.login_required

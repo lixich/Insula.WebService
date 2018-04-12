@@ -18,18 +18,18 @@
         <table class="table table-striped">
             <tr>
                 <td><b>Time</b></td>
-                <td><b>Insulin dose</b></td>
                 <td><b>Carbohydrate units</b></td>
                 <td><b>Glucose before</b></td>
                 <td><b>Glucose after</b></td>
+                <td><b>Insulin dose</b></td>
                 <td><b>Options</b></td></tr>
             <!-- ko foreach: doses -->
             <tr>
                 <td><p data-bind="text: Time"></p></td>
-                <td><p data-bind="text: Insulin"></p></td>
                 <td><p data-bind="text: Carbo"></p></td>
                 <td><p data-bind="text: GlucoseBefore"></p></td>
                 <td><p data-bind="text: GlucoseAfter"></p></td>
+                <td><p data-bind="text: Insulin"></p></td>
                 <td>
                     <button data-bind="click: $parent.beginEdit" class="btn">Edit</button>
                     <button data-bind="click: $parent.remove" class="btn">Delete</button>
@@ -199,13 +199,13 @@
             self.add = function(dose) {
                 self.ajax(self.doseURI, 'POST', dose).done(function(data) {
                     self.doses.push({
-                        uri: ko.observable(data.dose.uri),
-                        Insulin: ko.observable(data.dose.Insulin),
-                        Time: ko.observable(data.dose.Time),
-                        Carbo: ko.observable(data.dose.Carbo),
-                        GlucoseBefore: ko.observable(data.dose.GlucoseBefore),
-                        GlucoseAfter: ko.observable(data.dose.GlucoseAfter),
-                        Forecast: ko.observable(data.dose.Forecast)
+                        uri: ko.observable(data.uri),
+                        Insulin: ko.observable(data.Insulin),
+                        Time: ko.observable(data.Time),
+                        Carbo: ko.observable(data.Carbo),
+                        GlucoseBefore: ko.observable(data.GlucoseBefore),
+                        GlucoseAfter: ko.observable(data.GlucoseAfter),
+                        Forecast: ko.observable(data.Forecast)
                     });
                 });
             }
@@ -215,7 +215,7 @@
             }
             self.edit = function(dose, data) {
                 self.ajax(dose.uri(), 'PUT', data).done(function(res) {
-                    self.updateDose(dose, res.dose);
+                    self.updateDose(dose, res);
                 });
             }
             self.remove = function(dose) {
@@ -230,15 +230,15 @@
                 self.username = username;
                 self.password = password;
                 self.ajax(self.doseURI, 'GET').done(function(data) {
-                    for (var i = 0; i < data.doses.length; i++) {
+                    for (var i = 0; i < data.length; i++) {
                         self.doses.push({
-                            uri: ko.observable(data.doses[i].uri),
-                            Insulin: ko.observable(data.doses[i].Insulin),
-                            Time: ko.observable(data.doses[i].Time),
-                            Carbo: ko.observable(data.doses[i].Carbo),
-                            GlucoseBefore: ko.observable(data.doses[i].GlucoseBefore),
-                            GlucoseAfter: ko.observable(data.doses[i].GlucoseAfter),
-                            Forecast: ko.observable(data.doses[i].Forecast)
+                            uri: ko.observable(data[i].uri),
+                            Insulin: ko.observable(data[i].Insulin),
+                            Time: ko.observable(data[i].Time),
+                            Carbo: ko.observable(data[i].Carbo),
+                            GlucoseBefore: ko.observable(data[i].GlucoseBefore),
+                            GlucoseAfter: ko.observable(data[i].GlucoseAfter),
+                            Forecast: ko.observable(data[i].Forecast)
                         });
                     }
                 }).fail(function(jqXHR) {
@@ -309,7 +309,7 @@
                     GlucoseAfter: self.GlucoseAfter()
                 }
                 self.ajax(self.forecastURI, 'POST', dose).done(function(res) {
-                    self.forecastDose(dose, res.forecast);
+                    self.forecastDose(dose, res);
                 });
             }
 
