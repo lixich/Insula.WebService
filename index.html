@@ -22,7 +22,6 @@
                 <td><b>Carbohydrate units</b></td>
                 <td><b>Glucose before</b></td>
                 <td><b>Glucose after</b></td>
-                <td><b>Forecast</b></td>
                 <td><b>Options</b></td></tr>
             <!-- ko foreach: doses -->
             <tr>
@@ -31,11 +30,9 @@
                 <td><p data-bind="text: Carbo"></p></td>
                 <td><p data-bind="text: GlucoseBefore"></p></td>
                 <td><p data-bind="text: GlucoseAfter"></p></td>
-                <td><p data-bind="text: Forecast"></p></td>
                 <td>
                     <button data-bind="click: $parent.beginEdit" class="btn">Edit</button>
                     <button data-bind="click: $parent.remove" class="btn">Delete</button>
-                    <button data-bind="click: $parent.forecast" class="btn">Forecast</button>
                 </td>
             </tr>
             <!-- /ko -->
@@ -56,12 +53,6 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="inputInsulin">Insulin dose</label>
-                    <div class="controls">
-                        <input data-bind="value: Insulin" type="text" id="inputInsulin" placeholder="Insulin" style="width: 300px;">
-                    </div>
-                </div>
-                <div class="control-group">
                     <label class="control-label" for="inputCarbo">Carbohydrate units</label>
                     <div class="controls">
                         <input data-bind="value: Carbo" type="text" id="inputCarbo" placeholder="Carbo" style="width: 150px;">
@@ -79,9 +70,16 @@
                         <input data-bind="value: GlucoseAfter" type="text" id="inputGlucoseAfter" placeholder="GlucoseAfter" style="width: 300px;">
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputInsulin">Insulin dose</label>
+                    <div class="controls">
+                        <input data-bind="value: Insulin" type="text" id="inputInsulin" placeholder="Insulin" style="width: 300px;">
+                    </div>
+                </div>
             </form>
         </div>
         <div class="modal-footer">
+            <button data-bind="click: forecast" class="btn btn-primary">Forecast dose</button>
             <button data-bind="click: addDose" class="btn btn-primary">Add dose</button>
             <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
         </div>
@@ -100,12 +98,6 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label" for="inputInsulin">Insulin</label>
-                    <div class="controls">
-                        <input data-bind="value: Insulin" type="text" id="Insulin" placeholder="Insulin" style="width: 150px;">
-                    </div>
-                </div>
-                <div class="control-group">
                     <label class="control-label" for="inputCarbo">Carbohydrate units</label>
                     <div class="controls">
                         <input data-bind="value: Carbo" type="text" id="Carbo" placeholder="Carbo" style="width: 150px;">
@@ -121,6 +113,12 @@
                     <label class="control-label" for="inputGlucoseAfter">Glucose after</label>
                     <div class="controls">
                         <input data-bind="value: GlucoseAfter" type="text" id="GlucoseAfter" placeholder="GlucoseAfter" style="width: 150px;">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputInsulin">Insulin</label>
+                    <div class="controls">
+                        <input data-bind="value: Insulin" type="text" id="Insulin" placeholder="Insulin" style="width: 150px;">
                     </div>
                 </div>
             </form>
@@ -155,9 +153,12 @@
         </div>
     </div>
     <script type="text/javascript">
+
+
         function DosesViewModel() {
             var self = this;
-            self.dosesURI = 'http://lixich.pythonanywhere.com/dose/';
+            //self.doseURI = 'http://lixich.pythonanywhere.com/dose/';
+            self.doseURI = 'http://127.0.0.1:5000/dose/';
             self.username = "";
             self.password = "";
             self.doses = ko.observableArray();
@@ -196,7 +197,7 @@
                 $('#add').modal('show');
             }
             self.add = function(dose) {
-                self.ajax(self.dosesURI, 'POST', dose).done(function(data) {
+                self.ajax(self.doseURI, 'POST', dose).done(function(data) {
                     self.doses.push({
                         uri: ko.observable(data.dose.uri),
                         Insulin: ko.observable(data.dose.Insulin),
@@ -222,19 +223,13 @@
                     self.doses.remove(dose);
                 });
             }
-
-            self.forecast = function(dose) {
-                self.ajax(dose.uri(), 'PUT', { DoForecast: true }).done(function(res) {
-                    self.updateDose(dose, res.dose);
-                });
-            }
             self.beginLogin = function() {
                 $('#login').modal('show');
             }
             self.login = function(username, password) {
                 self.username = username;
                 self.password = password;
-                self.ajax(self.dosesURI, 'GET').done(function(data) {
+                self.ajax(self.doseURI, 'GET').done(function(data) {
                     for (var i = 0; i < data.doses.length; i++) {
                         self.doses.push({
                             uri: ko.observable(data.doses[i].uri),
@@ -256,11 +251,35 @@
         }
         function AddDoseViewModel() {
             var self = this;
+            //self.forecastURI = 'http://lixich.pythonanywhere.com/forecast/';
+            self.forecastURI = 'http://127.0.0.1:5000/forecast/';
+            self.username = "";
+            self.password = "";
             self.Insulin = ko.observable();
             self.Time = ko.observable();
             self.Carbo = ko.observable();
             self.GlucoseBefore = ko.observable();
             self.GlucoseAfter = ko.observable();
+
+            self.ajax = function(uri, method, data) {
+                var request = {
+                    url: uri,
+                    type: method,
+                    contentType: "application/json",
+                    accepts: "application/json",
+                    cache: false,
+                    dataType: 'json',
+                    data: JSON.stringify(data),
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization",
+                            "Basic " + btoa(self.username + ":" + self.password));
+                    },
+                    error: function(jqXHR) {
+                        console.log("ajax error " + jqXHR.status);
+                    }
+                };
+                return $.ajax(request);
+            }
 
             self.addDose = function() {
                 $('#add').modal('hide');
@@ -276,6 +295,27 @@
                 self.Carbo("");
                 self.GlucoseBefore("");
                 self.GlucoseAfter("");
+            }
+
+            self.forecastDose = function(dose, newDose) {
+                self.Insulin(newDose.Forecast);
+            }
+
+            self.forecast = function() {
+                dose = {
+                    Time: self.Time(),
+                    Carbo: self.Carbo(),
+                    GlucoseBefore: self.GlucoseBefore(),
+                    GlucoseAfter: self.GlucoseAfter()
+                }
+                self.ajax(self.forecastURI, 'POST', dose).done(function(res) {
+                    self.forecastDose(dose, res.forecast);
+                });
+            }
+
+            self.login = function(username, password) {
+                self.username = username;
+                self.password = password;
             }
         }
         function EditDoseViewModel() {
@@ -313,8 +353,8 @@
             self.password = ko.observable();
  
             self.login = function() {
-                $('#login').modal('hide');
                 dosesViewModel.login(self.username(), self.password());
+                addDoseViewModel.login(self.username(), self.password());
             }
         }
         
