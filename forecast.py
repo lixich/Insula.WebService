@@ -8,9 +8,12 @@ app_forecast = Blueprint('forecast', __name__)
 def average(numbers):
     return float(sum(numbers)) / max(len(numbers), 1)
 
-def forecast_dose(doses):
+def average_alg(doses):
     values = [value['Insulin'] for value in doses]
     return round(average(values))
+
+def zero_alg(doses):
+    return 0
 
 def make_public_forecast(forecast):
     new_forecast = {}
@@ -27,5 +30,5 @@ def create_forecast():
     if not request.json:
         abort(400)
     user_doses = [dose for dose in dose_set if dose['UserId'] == get_user_id(auth.username())]
-    forecast = {'Forecast': forecast_dose(user_doses)}
-    return jsonify( make_public_forecast(forecast)), 201
+    forecasts = [{'Forecast': average_alg(user_doses)}, {'Forecast': zero_alg(user_doses)}]
+    return jsonify(list(map(make_public_forecast, forecasts))), 201
