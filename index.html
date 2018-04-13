@@ -154,11 +154,12 @@
     </div>
     <script type="text/javascript">
 
+        URL = 'http://lixich.pythonanywhere.com/'
+        //URL = 'http://localhost:5000/
 
         function DosesViewModel() {
             var self = this;
-            //self.doseURI = 'http://lixich.pythonanywhere.com/dose/';
-            self.doseURI = 'http://localhost:5000/' + 'dose/';
+            self.doseURI = URL + 'dose/';
             self.username = "";
             self.password = "";
             self.doses = ko.observableArray();
@@ -251,8 +252,7 @@
         }
         function AddDoseViewModel() {
             var self = this;
-            //self.forecastURI = 'http://lixich.pythonanywhere.com/forecast/';
-            self.forecastURI = 'http://localhost:5000/' + 'forecast/';
+            self.forecastURI = URL + 'forecast/';
             self.username = "";
             self.password = "";
             self.Insulin = ko.observable();
