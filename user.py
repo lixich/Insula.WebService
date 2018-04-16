@@ -8,30 +8,40 @@ app_user = Blueprint('', __name__)
 user_set = [
     {
         'Id': 1,
-        'UserName': '1',
+        'Username': '1',
         'Password': '1'
     },
     {
         'Id': 2,
-        'UserName': '2',
+        'Username': '2',
         'Password': '2'
     }
 ]
 dose_class = {
     'Id': int,
-    'UserName': str,
+    'Username': str,
     'Password': str
 }
 
 def get_user_id(username):
-    users = [user for user in user_set if user['UserName'] == username]
+    users = [user for user in user_set if user['Username'] == username]
     if len(users) == 0:
         return None
     return users[0]['Id']
 
+@app_user.route('/', methods = ['GET'])
+@auth.login_required
+def login_required():
+    if auth.username():
+        users = [user for user in user_set if user['Username'] == auth.username()]
+        return jsonify(users[0]), 201
+    else:
+        return make_response(jsonify( { 'error': 'Not found' } ), 404)
+
+
 @auth.get_password
 def get_password(username):
-    users = [user for user in user_set if user['UserName'] == username]
+    users = [user for user in user_set if user['Username'] == username]
     if len(users) == 0:
         return None
     return users[0]['Password']

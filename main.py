@@ -10,7 +10,7 @@ def register_blueprints():
     from dose import app_dose
     from forecast import app_forecast
     app.register_blueprint(app_forecast, url_prefix='/forecast')
-    app.register_blueprint(app_user, url_prefix='/')
+    app.register_blueprint(app_user, url_prefix='/user')
     app.register_blueprint(app_dose, url_prefix='/dose')
 
 register_blueprints()
