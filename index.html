@@ -191,7 +191,6 @@
                 self.doses()[i].Carbo(newDose.Carbo);
                 self.doses()[i].GlucoseBefore(newDose.GlucoseBefore);
                 self.doses()[i].GlucoseAfter(newDose.GlucoseAfter);
-                self.doses()[i].Forecast(newDose.Forecast);
             }
 
             self.beginAdd = function() {
@@ -205,8 +204,7 @@
                         Time: ko.observable(data.Time),
                         Carbo: ko.observable(data.Carbo),
                         GlucoseBefore: ko.observable(data.GlucoseBefore),
-                        GlucoseAfter: ko.observable(data.GlucoseAfter),
-                        Forecast: ko.observable(data.Forecast)
+                        GlucoseAfter: ko.observable(data.GlucoseAfter)
                     });
                 });
             }
@@ -238,8 +236,7 @@
                             Time: ko.observable(data[i].Time),
                             Carbo: ko.observable(data[i].Carbo),
                             GlucoseBefore: ko.observable(data[i].GlucoseBefore),
-                            GlucoseAfter: ko.observable(data[i].GlucoseAfter),
-                            Forecast: ko.observable(data[i].Forecast)
+                            GlucoseAfter: ko.observable(data[i].GlucoseAfter)
                         });
                     }
                 }).fail(function(jqXHR) {
@@ -298,7 +295,7 @@
             }
 
             self.forecastDose = function(dose, newDose) {
-                self.Insulin(newDose[0].Forecast);
+                self.Insulin(newDose[0].Value);
             }
 
             self.forecast = function() {

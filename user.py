@@ -1,6 +1,7 @@
 #!flask/bin/python
 from flask import Flask, Blueprint, jsonify, abort, request, make_response
 from flask_httpauth import HTTPBasicAuth
+from db import update_record, create_record
 
 auth = HTTPBasicAuth()
 app_user = Blueprint('', __name__)
@@ -17,7 +18,7 @@ user_set = [
         'Password': '2'
     }
 ]
-dose_class = {
+user_class = {
     'Id': int,
     'Username': str,
     'Password': str
@@ -38,6 +39,15 @@ def login_required():
     else:
         return make_response(jsonify( { 'error': 'Not found' } ), 404)
 
+@app_user.route('/', methods = ['POST'])
+def create_user():
+    if not request.json:
+        abort(400)
+    user = { 'Id': user_set[-1]['Id'] + 1 if len(user_set) else 1 }
+    if not create_record(user_class, request, user):
+        abort(400)
+    user_set.append(user)
+    return jsonify(user), 201
 
 @auth.get_password
 def get_password(username):

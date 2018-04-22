@@ -11,7 +11,6 @@ dose_set = [
         'Carbo': 5,
         'GlucoseBefore': 5.9,
         'GlucoseAfter': 6.2,
-        'Forecast': '',
         'UserId': 1
     },
     {
@@ -21,7 +20,6 @@ dose_set = [
         'Carbo': 4,
         'GlucoseBefore': 3.5,
         'GlucoseAfter': 4.9,
-        'Forecast': '',
         'UserId': 1
     }
 ]
@@ -32,7 +30,6 @@ dose_class = {
     'Carbo': float,
     'GlucoseBefore': float,
     'GlucoseAfter': float,
-    'Forecast': str,
     'UserId': int
 }
 

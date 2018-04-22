@@ -30,5 +30,5 @@ def create_forecast():
     if not request.json:
         abort(400)
     user_doses = [dose for dose in dose_set if dose['UserId'] == get_user_id(auth.username())]
-    forecasts = [{'Forecast': average_alg(user_doses)}, {'Forecast': zero_alg(user_doses)}]
+    forecasts = [{'Value': average_alg(user_doses)}, {'Value': zero_alg(user_doses)}]
     return jsonify(list(map(make_public_forecast, forecasts))), 201
