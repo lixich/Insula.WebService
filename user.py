@@ -10,18 +10,33 @@ user_set = [
     {
         'Id': 1,
         'Username': '1',
-        'Password': '1'
+        'Password': '1',
+        'Birthday': '1.01.2000',
+        'Weight': 40,
+        'Growth': 160,
+        'Insulin': 'Название',
+        'NormalGlucose': 5.0
     },
     {
         'Id': 2,
         'Username': '2',
-        'Password': '2'
+        'Password': '2',
+        'Birthday': '1.07.1990',
+        'Weight': 60,
+        'Growth': 175,
+        'Insulin': 'Регуляр',
+        'NormalGlucose': 4.5
     }
 ]
 user_class = {
     'Id': int,
     'Username': str,
-    'Password': str
+    'Password': str,
+    'Birthday': str,
+    'Weight': float,
+    'Growth': float,
+    'Insulin': int,
+    'NormalGlucose': float
 }
 
 def get_user_id(username):

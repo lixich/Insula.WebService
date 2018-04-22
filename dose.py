@@ -38,6 +38,7 @@ def make_public_dose(dose):
     for field in dose:
         if field == 'Id':
             new_dose['uri'] = url_for('dose.get_dose', dose_id = dose['Id'], _external = True)
+            new_dose[field] = dose[field]
         else:
             new_dose[field] = dose[field]
     return new_dose
