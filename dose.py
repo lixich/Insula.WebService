@@ -36,17 +36,16 @@ dose_class = {
 def make_public_dose(dose):
     new_dose = {}
     for field in dose:
+        new_dose[field] = dose[field]
         if field == 'Id':
             new_dose['uri'] = url_for('dose.get_dose', dose_id = dose['Id'], _external = True)
-            new_dose[field] = dose[field]
-        else:
-            new_dose[field] = dose[field]
     return new_dose
 
 @app_dose.route('/', methods = ['GET'])
 @auth.login_required
 def get_dose_set():
     doses = [dose for dose in dose_set if dose['UserId'] == get_user_id(auth.username())]
+    #return make_response(dumps(list(map(make_public_dose, doses))))
     return jsonify(list(map(make_public_dose, doses)))
 
 @app_dose.route('/<int:dose_id>', methods = ['GET'])

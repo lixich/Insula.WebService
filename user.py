@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask, Blueprint, jsonify, abort, request, make_response
+from flask import Flask, Blueprint, jsonify, abort, request, make_response, url_for
 from flask_httpauth import HTTPBasicAuth
 from db import update_record, create_record
 
@@ -39,6 +39,14 @@ user_class = {
     'NormalGlucose': float
 }
 
+def make_public_user(user):
+    new_user = {}
+    for field in user:
+        new_user[field] = user[field]
+        if field == 'Id':
+            new_user['uri'] = url_for('.get_user', user_id = user['Id'], _external = True)
+    return new_user
+
 def get_user_id(username):
     users = [user for user in user_set if user['Username'] == username]
     if len(users) == 0:
@@ -50,9 +58,17 @@ def get_user_id(username):
 def login_required():
     if auth.username():
         users = [user for user in user_set if user['Username'] == auth.username()]
-        return jsonify(users[0]), 201
+        return jsonify(make_public_user(users[0])), 201
     else:
         return make_response(jsonify( { 'error': 'Not found' } ), 404)
+
+@app_user.route('/<int:user_id>', methods = ['GET'])
+@auth.login_required
+def get_user(user_id):
+    users = [user for user in user_set if user['Id'] == user_id]
+    if len(users) == 0:
+        abort(404)
+    return jsonify(make_public_user(users[0]))
 
 @app_user.route('/', methods = ['POST'])
 def create_user():
@@ -62,7 +78,17 @@ def create_user():
     if not create_record(user_class, request, user):
         abort(400)
     user_set.append(user)
-    return jsonify(user), 201
+    return jsonify(make_public_user(user)), 201
+
+@app_user.route('/<int:user_id>', methods=['PUT'])
+@auth.login_required
+def update_dose(user_id):
+    users = [dose for dose in user_set if dose['Id'] == user_id]
+    if len(users) == 0 or not request.json:
+        abort(404)
+    user = users[0]
+    update_record(user_class, request, user)
+    return jsonify( make_public_user(user))
 
 @auth.get_password
 def get_password(username):
@@ -70,6 +96,15 @@ def get_password(username):
     if len(users) == 0:
         return None
     return users[0]['Password']
+
+@app_user.route('/<int:user_id>', methods=['DELETE'])
+@auth.login_required
+def delete_user(user_id):
+    users = [user for user in user_set if user['Id'] == user_id]
+    if len(users) == 0:
+        abort(404)
+    user_set.remove(users[0])
+    return jsonify({'Result': True})
 
 @app_user.errorhandler(400)
 def not_found(error):
