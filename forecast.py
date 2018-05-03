@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, abort, request, url_for
-from user import auth, get_user_id
+from user import auth, get_user_id, get_current_user
 from dose import dose_set
-from db import update_record, create_record
+from algorithms import run_algorithms
 
 app_forecast = Blueprint('forecast', __name__)
 
@@ -15,23 +15,11 @@ def average_alg(doses):
 def zero_alg(doses):
     return 0
 
-def make_public_forecast(forecast):
-    new_forecast = {}
-    for field in forecast:
-        if field == 'Id':
-            new_forecast['uri'] = url_for('dose.get_dose', dose_id = forecast['Id'], _external = True)
-        else:
-            new_forecast[field] = forecast[field]
-    return new_forecast
-
 @app_forecast.route('/', methods = ['POST'])
 @auth.login_required
 def create_forecast():
     if not request.json:
         abort(400)
     user_doses = [dose for dose in dose_set if dose['UserId'] == get_user_id(auth.username())]
-    forecasts = [{'Value': average_alg(user_doses),
-                  'Name': 'Average'},
-                 {'Value': zero_alg(user_doses),
-                  'Name': 'Zero'}]
-    return jsonify(list(map(make_public_forecast, forecasts))), 201
+    forecasts = run_algorithms(request.json, user_doses)
+    return jsonify(forecasts), 201

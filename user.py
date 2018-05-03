@@ -83,6 +83,12 @@ def get_user_id(username):
         return None
     return users[0]['Id']
 
+def get_current_user():
+    users = [user for user in user_set if user['Username'] == auth.username()]
+    if len(users) == 0:
+        return None
+    return users[0]
+
 @app_user.route('/', methods = ['GET'])
 @auth.login_required
 def login_required():
