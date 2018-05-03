@@ -75,5 +75,6 @@ def run_algorithms(dose, doses):
     for name, model in algorithms.items():
         value, accuracy = algorithm(model, df, input_dose)
         forecasts.append(get_json(name, value, accuracy))
+    forecasts = list(filter(lambda x: x['Value'] >= 0, forecasts))
     forecasts.sort(key=lambda x: x['Accuracy'], reverse=True)
     return forecasts

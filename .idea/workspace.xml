@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="c8a313ce-c01e-4d34-80ad-8098ad523f5f" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
+      <change beforePath="$PROJECT_DIR$/algorithms.py" afterPath="$PROJECT_DIR$/algorithms.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,7 +26,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="289">
@@ -49,11 +48,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="algorithms.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="algorithms.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/algorithms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="59" column="44" lean-forward="true" selection-start-line="59" selection-start-column="44" selection-end-line="59" selection-end-column="44" />
+            <state relative-caret-position="577">
+              <caret line="77" column="66" lean-forward="false" selection-start-line="77" selection-start-column="66" selection-end-line="77" selection-end-column="66" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -96,8 +95,8 @@
       <file leaf-file-name="requirements.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/requirements.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="5" lean-forward="false" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+            <state relative-caret-position="136">
+              <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -154,10 +153,10 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/user.py" />
         <option value="$PROJECT_DIR$/forecast.py" />
-        <option value="$PROJECT_DIR$/algorithms.py" />
         <option value="$PROJECT_DIR$/dose.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/algorithms.py" />
       </list>
     </option>
   </component>
@@ -377,13 +376,13 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fix url" />
     <MESSAGE value="add array forecast" />
     <MESSAGE value="add user auth" />
     <MESSAGE value="add registr user, upd dose, upd Forecast =&gt; Value" />
     <MESSAGE value="fix bugs" />
     <MESSAGE value="add algorithms" />
-    <option name="LAST_COMMIT_MESSAGE" value="add algorithms" />
+    <MESSAGE value="fix url" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix url" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -708,24 +707,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dose1.py" />
-    <entry file="file://$PROJECT_DIR$/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="27" lean-forward="false" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
-          <folding>
-            <element signature="e#19#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="85" column="20" lean-forward="false" selection-start-line="85" selection-start-column="4" selection-end-line="85" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/forecast.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
@@ -754,29 +735,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="156" column="32" lean-forward="false" selection-start-line="156" selection-start-column="32" selection-end-line="156" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="5" lean-forward="false" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+        <state relative-caret-position="136">
+          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="27" lean-forward="false" selection-start-line="9" selection-start-column="27" selection-end-line="9" selection-end-column="27" />
+          <folding>
+            <element signature="e#19#42#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="85" column="20" lean-forward="false" selection-start-line="85" selection-start-column="4" selection-end-line="85" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/algorithms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="59" column="44" lean-forward="true" selection-start-line="59" selection-start-column="44" selection-end-line="59" selection-end-column="44" />
+        <state relative-caret-position="577">
+          <caret line="77" column="66" lean-forward="false" selection-start-line="77" selection-start-column="66" selection-end-line="77" selection-end-column="66" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="156" column="32" lean-forward="false" selection-start-line="156" selection-start-column="32" selection-end-line="156" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
