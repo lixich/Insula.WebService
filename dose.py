@@ -1,6 +1,8 @@
 from flask import Blueprint, jsonify, abort, request, url_for
 from user import auth, get_user_id
 from db import update_record, create_record
+import pandas as pd
+from datetime import datetime
 
 app_dose = Blueprint('dose', __name__)
 dose_set = [
@@ -86,3 +88,12 @@ def delete_dose(dose_id):
         abort(404)
     dose_set.remove(doses[0])
     return jsonify({'Result': True})
+
+def load_data():
+    global dose_set
+    df = pd.read_excel('dataset.xlsx')
+    df['Id'] = df.index
+    df['Time'] = list(map(lambda x: datetime.strptime(x,'%d.%m.%Y %H:%M:%S'), df['Time']))
+    dose_set = df.to_dict(orient='records')
+
+load_data()

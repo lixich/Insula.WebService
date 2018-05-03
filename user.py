@@ -11,21 +11,51 @@ user_set = [
         'Id': 1,
         'Username': '1',
         'Password': '1',
-        'Birthday': '1.01.2000',
-        'Weight': 40,
-        'Growth': 160,
-        'Insulin': 'Название',
-        'NormalGlucose': 5.0
+        'Birthday': '1.04.1996',
+        'Weight': 50,
+        'Growth': 177,
+        'Insulin': 'Регуляр',
+        'NormalGlucose': 6.0
     },
     {
         'Id': 2,
         'Username': '2',
         'Password': '2',
-        'Birthday': '1.07.1990',
+        'Birthday': '1.07.1984',
+        'Weight': 50,
+        'Growth': 175,
+        'Insulin': 'Хумалог',
+        'NormalGlucose': 6.0
+    },
+    {
+        'Id': 3,
+        'Username': '3',
+        'Password': '3',
+        'Birthday': '1.03.1995',
+        'Weight': 65,
+        'Growth': 178,
+        'Insulin': 'Хумалог',
+        'NormalGlucose': 6.0
+    },
+    {
+        'Id': 4,
+        'Username': '4',
+        'Password': '4',
+        'Birthday': '1.03.1990',
         'Weight': 60,
         'Growth': 175,
         'Insulin': 'Регуляр',
-        'NormalGlucose': 4.5
+        'NormalGlucose': 6.0
+    },
+    {
+        'Id': 5,
+        'Username': '5',
+        'Password': '5',
+        'Birthday': '1.03.1965',
+        'Weight': 49,
+        'Growth': 169,
+        'Insulin': 'Хумалог',
+        'NormalGlucose': 6.0
     }
 ]
 user_class = {
