@@ -57,7 +57,10 @@ def get_dose(dose_id):
     doses = [dose for dose in dose_set if dose['Id'] == dose_id]
     if len(doses) == 0:
         abort(404)
-    return jsonify(make_public_dose(doses[0]))
+    dose = doses[0]
+    if dose['UserId'] != get_user_id(auth.username()):
+        abort(404)
+    return jsonify(make_public_dose(dose))
 
 @app_dose.route('/', methods=['POST'])
 @auth.login_required
@@ -78,6 +81,8 @@ def update_dose(dose_id):
     if len(doses) == 0 or not request.json:
         abort(404)
     dose = doses[0]
+    if dose['UserId'] != get_user_id(auth.username()):
+        abort(404)
     update_record(dose_class, request, dose)
     return jsonify( make_public_dose(dose))
 
@@ -86,6 +91,9 @@ def update_dose(dose_id):
 def delete_dose(dose_id):
     doses = [dose for dose in dose_set if dose['Id'] == dose_id]
     if len(doses) == 0:
+        abort(404)
+    dose = doses[0]
+    if dose['UserId'] != get_user_id(auth.username()):
         abort(404)
     dose_set.remove(doses[0])
     return jsonify({'Result': True})

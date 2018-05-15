@@ -102,7 +102,8 @@ def login_required():
 @auth.login_required
 def get_user(user_id):
     users = [user for user in user_set if user['Id'] == user_id]
-    if len(users) == 0:
+    current_user = get_current_user()
+    if len(users) == 0 or get_current_user()['Id'] != user_id:
         abort(404)
     return jsonify(make_public_user(users[0]))
 
@@ -141,11 +142,3 @@ def delete_user(user_id):
         abort(404)
     user_set.remove(users[0])
     return jsonify({'Result': True})
-
-@app_user.errorhandler(400)
-def not_found(error):
-    return make_response(jsonify( { 'error': 'Bad request' } ), 400)
-
-@app_user.errorhandler(404)
-def not_found(error):
-    return make_response(jsonify( { 'error': 'Not found' } ), 404)
