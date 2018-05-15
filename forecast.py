@@ -18,6 +18,7 @@ def zero_alg(doses):
 @app_forecast.route('/', methods = ['POST'])
 @auth.login_required
 def create_forecast():
+    print(request.json)
     if not request.json:
         abort(400)
     user_doses = [dose for dose in dose_set if dose['UserId'] == get_user_id(auth.username())]

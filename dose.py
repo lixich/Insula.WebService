@@ -93,7 +93,7 @@ def delete_dose(dose_id):
 def load_data():
     global dose_set
     df = pd.read_excel('dataset.xlsx')
-    df['Id'] = df.index
+    df['Id'] = df.index + 1
     df['Time'] = list(map(lambda x: datetime.strptime(x,'%d.%m.%Y %H:%M:%S'), df['Time']))
     dose_set = df.to_dict(orient='records')
 

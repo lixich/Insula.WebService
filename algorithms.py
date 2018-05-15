@@ -1,11 +1,19 @@
 import pandas as pd
 import numpy as np
 from pandas.io.json import json_normalize
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, explained_variance_score
 from sklearn.neighbors import KNeighborsRegressor
-from sklearn.ensemble import ExtraTreesRegressor, RandomForestRegressor, GradientBoostingRegressor
+from sklearn.ensemble import ExtraTreesRegressor, RandomForestRegressor
 from dateutil import parser
+
+def arithmetic_round(x):
+    a = int(x)
+    b = x - a
+    if (x < 0.5):
+        return round(x)
+    else:
+        return round(x + 0.00001)
 
 def mean_absolute_percentage_error(y_true, y_pred):
     _sum = 0
@@ -41,7 +49,7 @@ def get_json(name, value, accuracy):
     return {
         'Accuracy': round(accuracy,2),
         'Name' : name,
-        'Value': round(value)
+        'Value': arithmetic_round(float(value))
     }
 
 def algorithm(model, df, input_dose):
@@ -57,7 +65,7 @@ algorithms = {
     'KNN' : KNeighborsRegressor(n_neighbors=5),
     'Tree' : ExtraTreesRegressor(n_estimators=50, max_features ='sqrt'),
     'Forest' : RandomForestRegressor(n_estimators=50, max_features ='sqrt'),
-    'Gradient' : GradientBoostingRegressor()
+    'Logistic' : LogisticRegression()
 }
 
 def run_algorithms(dose, doses):
@@ -66,15 +74,15 @@ def run_algorithms(dose, doses):
     df['Hour'] = list(map(lambda t: t.hour + t.minute/60, df['Time']))
     dose['Time'] = parser.parse(dose['Time'])
     input_dose = [
-        dose['Time'].hour + dose['Time'].minute/60,
-        dose['Carbo'],
-        dose['GlucoseBefore'],
-        dose['GlucoseAfter']
+        float(dose['Time'].hour + dose['Time'].minute/60),
+        float(dose['Carbo']),
+        float(dose['GlucoseBefore']),
+        float(dose['GlucoseAfter'])
     ]
     forecasts = []
     for name, model in algorithms.items():
         value, accuracy = algorithm(model, df, input_dose)
         forecasts.append(get_json(name, value, accuracy))
-    forecasts = list(filter(lambda x: x['Value'] >= 0, forecasts))
+    forecasts = list(filter(lambda x: x['Value'] >= 0 and x['Accuracy'] > 0, forecasts))
     forecasts.sort(key=lambda x: x['Accuracy'], reverse=True)
     return forecasts

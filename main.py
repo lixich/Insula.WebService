@@ -16,4 +16,4 @@ def register_blueprints():
 register_blueprints()
 
 if __name__ == '__main__':
-    app.run(host='192.168.0.102', debug = True, threaded=True)
+    app.run(host='192.168.0.100',debug = True, threaded=True)
